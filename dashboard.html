@@ -8,21 +8,28 @@
 </head>
 <body>
 
+
     <!-- ✅ Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <button id="logout-btn" class="nav-btn">Logout</button>
+            <div class="nav-buttons">
+                <button id="logout-btn" class="nav-btn">Logout</button>
+                <button onclick="window.location.href='index.html'" class="nav-btn">Find Flights</button>
+            </div>
         </div>
     </nav>
 
+
     <!-- ✅ Dashboard Content -->
     <div class="dashboard-container">
-        <h1>Welcome to Your Dashboard</h1>
+        <h1 style="color: #007bff;">Airline Reservation</h1>
         <div id="customer-info">
             <p>Loading user data...</p>
         </div>
-        <button onclick="window.location.href='booking.html'">Go to Booking</button>
+        <h2>Current Reservations</h2>
+        <div id="bookings-container"></div>
     </div>
+
 
     <script src="script.js"></script>
 </body>

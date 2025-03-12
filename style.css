@@ -10,6 +10,7 @@ body {
     padding: 20px;
 }
 
+
 /* ✅ Ensure the container is fully visible */
 .container {
     background: white;
@@ -21,6 +22,7 @@ body {
     text-align: center;
 }
 
+
 /* ✅ Align form elements to the left */
 form {
     display: flex;
@@ -28,6 +30,7 @@ form {
     align-items: flex-start;
     margin-bottom: 15px;
 }
+
 
 /* ✅ Style labels */
 label {
@@ -37,6 +40,7 @@ label {
     font-weight: bold;
 }
 
+
 /* ✅ Style Depart & Return Date labels */
 .date-label {
     font-size: 16px;
@@ -44,6 +48,7 @@ label {
     display: block;
     margin-bottom: 5px;
 }
+
 
 /* ✅ Ensure both Depart Date & Return Date input fields have the same width & height */
 .date-input {
@@ -57,10 +62,12 @@ label {
     outline: none;
 }
 
+
 /* ✅ Add hover effect for better UX */
 .date-input:hover {
     border-color: #007bff;
 }
+
 
 /* ✅ Ensure the date input fields are aligned properly */
 .date-container {
@@ -68,6 +75,7 @@ label {
     flex-direction: column;
     gap: 10px;
 }
+
 
 /* ✅ Ensure buttons and input fields are spaced properly */
 input, button {
@@ -78,6 +86,7 @@ input, button {
     width: 100%;
 }
 
+
 /* ✅ Round Trip Checkbox Styling */
 .trip-type {
     display: flex;
@@ -86,10 +95,12 @@ input, button {
     margin-top: 10px;
 }
 
+
 .trip-type input {
     transform: scale(1.2); /* Make checkbox bigger */
     cursor: pointer;
 }
+
 
 /* ✅ Button styling */
 button {
@@ -102,9 +113,11 @@ button {
     font-size: 16px;
 }
 
+
 button:hover {
     background-color: #0056b3;
 }
+
 
 /* ✅ Ensure the flight results container displays flights in a row */
 #flightResults {
@@ -116,6 +129,7 @@ button:hover {
     margin-top: 20px;
 }
 
+
 /* ✅ Container for Departing & Returning Flights */
 #departing-flights-container, #returning-flights-container {
     display: flex;
@@ -125,6 +139,7 @@ button:hover {
     margin-top: 15px; /* Space below section title */
     padding: 10px;
 }
+
 
 /* ✅ Individual flight card */
 .flight-card {
@@ -137,6 +152,7 @@ button:hover {
     text-align: center;
 }
 
+
 /* ✅ Flashing red effect for low seat availability */
 .flashing-red {
     color: red;
@@ -144,16 +160,19 @@ button:hover {
     animation: flash 1s infinite;
 }
 
+
 @keyframes flash {
     0% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.3; transform: scale(1.05); }
     100% { opacity: 1; transform: scale(1); }
 }
 
+
 /* ✅ Hide the return date container by default */
 #returnDateContainer {
     display: none;
 }
+
 
 /* ✅ Styling for the Reserve button */
 .reserve-btn {
@@ -169,9 +188,11 @@ button:hover {
     transition: background-color 0.3s ease-in-out;
 }
 
+
 .reserve-btn:hover {
     background-color: #218838; /* Darker green on hover */
 }
+
 
 /* ✅ Navigation Bar */
 .navbar {
@@ -189,11 +210,13 @@ button:hover {
     height: 60px;
 }
 
+
 /* ✅ Container for buttons */
 .nav-buttons {
     display: flex;
     gap: 10px; /* Space between buttons */
 }
+
 
 /* ✅ Navigation Buttons (Login & Sign-Up) */
 .nav-btn {
@@ -207,15 +230,18 @@ button:hover {
     transition: background-color 0.3s ease-in-out;
 }
 
+
 /* ✅ Hover Effect */
 .nav-btn:hover {
     background-color: #0056b3;
 }
 
+
 /* ✅ Ensure page content is not hidden under the navbar */
 body {
     padding-top: 70px;
 }
+
 
 /* ✅ Center Login Page */
 .login-container {
@@ -228,6 +254,7 @@ body {
     margin: 100px auto; /* Centers the login form */
 }
 
+
 /* ✅ Style Input Fields */
 .login-container input {
     width: 100%;
@@ -236,6 +263,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 
 /* ✅ Style Login Button */
 .login-submit {
@@ -250,9 +278,11 @@ body {
     margin-top: 10px;
 }
 
+
 .login-submit:hover {
     background-color: #0056b3;
 }
+
 
 /* ✅ Center Registration Page */
 .signup-container {
@@ -265,6 +295,7 @@ body {
     margin: 100px auto; /* Centers the signup form */
 }
 
+
 /* ✅ Style Input Fields */
 .signup-container input {
     width: 100%;
@@ -273,6 +304,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 
 /* ✅ Style Sign-Up Button */
 .signup-submit {
@@ -287,9 +319,11 @@ body {
     margin-top: 10px;
 }
 
+
 .signup-submit:hover {
     background-color: #218838;
 }
+
 
 /* ✅ Already have an account? */
 .login-text {
@@ -297,6 +331,7 @@ body {
     font-size: 14px;
     color: #333;
 }
+
 
 /* ✅ Style Login Button Below Sign-Up */
 .login-btn {
@@ -312,6 +347,75 @@ body {
     transition: background-color 0.3s ease-in-out;
 }
 
+
 .login-btn:hover {
     background-color: #0056b3;
+}
+
+
+
+
+/* Booking Cards Styling */
+.booking-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Keeps it neat */
+    text-align: center;
+    margin: 10px auto; /* Centers the card */
+    transition: transform 0.2s ease-in-out;
+}
+
+
+.booking-card:hover {
+    transform: scale(1.02); /* Slight lift effect */
+}
+
+
+/* ✅ Title Styling */
+.card-title {
+    font-size: 1.2rem;
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+/* ✅ Text Styling */
+.card-text {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+
+/* ✅ Price Styling */
+.price {
+    color: #28a745;
+    font-weight: bold;
+}
+
+
+/* ✅ Status Badges */
+.paid-badge {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+.pending-badge {
+    background-color: #ffc107;
+    color: black;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
 }
