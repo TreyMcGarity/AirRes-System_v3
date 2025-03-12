@@ -438,6 +438,9 @@ function displayResults(departureFlights, returnFlights, origin, destination, de
     document.getElementById("flightResults").innerHTML = resultsHTML;
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("✅ Reserve buttons found:", document.querySelectorAll(".reserve-btn"));
+});
 
 // ✅ Helper function to generate flight HTML with "Reserve" button
 function generateFlightHTML(flight) {
@@ -450,30 +453,59 @@ function generateFlightHTML(flight) {
             <p><strong>Destination Airport:</strong> ${flight.destination}</p>
             <p><strong>Arrival Time:</strong> ${flight.arrival_time}</p>
             <p><strong>Duration:</strong> ${flight.duration} hours</p>
-            <p><strong>Seats Available:</strong> <span class="${flight.seat_availability <= 5 ? 'flashing-red' : ''}">${flight.seat_availability}</span></p>
+            <p><strong>Seats Available:</strong> 
+                <span class="${flight.seat_availability <= 5 ? 'flashing-red' : ''}">
+                    ${flight.seat_availability}
+                </span>
+            </p>
             <p><strong>Cost:</strong> $${flight.price}</p>
-            <button class="reserve-btn" data-flight-number="${flight.flight_number}">Reserve</button>
+            <button class="reserve-btn" data-flight-id="${flight.id}">Reserve</button>
         </div>
     `;
 }
 
+// ✅ Event Listener for Reserve Button
+document.getElementById("flightResults").addEventListener("click", async function (event) {
+    const button = event.target.closest(".reserve-btn"); // ✅ Ensure it's a button
+    if (!button) return;
 
-// ✅ Event listener to handle reservations
-document.addEventListener("click", function(event) {
-    if (event.target.classList.contains("reserve-btn")) {
-        const flightNumber = event.target.getAttribute("data-flight-number");
+    const flightId = button.getAttribute("data-flight-id");
+    
+    if (!flightId) {
+        console.error("Flight ID is missing.");
+        return;
+    }
 
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+        alert("⚠️ Please log in first.");
+        window.location.href = "login.html";
+        return;
+    }
 
-        // ✅ Check if user is logged in (assuming login status is stored in localStorage)
-        const isLoggedIn = localStorage.getItem("userLoggedIn");
+    try {
+        const response = await fetch("https://airline-reservation-backend.onrender.com/api/bookings/bookFlight", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `${token}`
+            },
+            body: JSON.stringify({ flight_id: flightId }) 
+        });
 
+        const data = await response.json();
 
-        if (!isLoggedIn) {
-            alert("🔐 You must be logged in to reserve a flight.");
-            window.location.href = "login.html"; // Redirect to login page
+        if (response.ok) {
+            alert("Flight reserved successfully!");
+            console.log("Booking confirmation:", data);
         } else {
-            alert(`🎟️ Flight ${flightNumber} reserved successfully!`);
-            console.log(`✅ Flight ${flightNumber} reservation processed.`);
+            alert(`Error: ${data.message || "Could not reserve flight."}`);
         }
+    } catch (error) {
+        alert("Failed to reserve flight. Please check your internet connection.");
+        console.error("Reservation error:", error);
     }
 });
+
+
