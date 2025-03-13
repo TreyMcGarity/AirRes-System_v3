@@ -242,10 +242,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
    
             bookings.forEach(booking => {
+                console.log(booking)
                 const card = document.createElement("div");
                 card.className = "col-md-4 mb-3";
                 card.innerHTML = `
-                    <div class="booking-card">
+                    <div class="booking-card" data-booking-id="${booking.booking_id}" data-amount="${booking.price}">
                         <div class="card-body">
                             <h5 class="card-title">${booking.airline} - Flight ${booking.flight_number}</h5>
                             <p class="card-text"><strong>From:</strong> ${booking.origin} → <strong>To:</strong> ${booking.destination}</p>
@@ -266,6 +267,180 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Retrieving bookings error:", error.message);
         }
     }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("paymentModal");
+    const paymentForm = document.getElementById("payment-form");
+
+    // ✅ Open Payment Modal When Clicking a Booking Card
+    document.getElementById("bookings-container").addEventListener("click", (event) => {
+        const card = event.target.closest(".booking-card");
+        if (!card) return; // Exit if no card was clicked
+
+        const bookingId = card.getAttribute("data-booking-id");
+        const price = card.getAttribute("data-amount");
+
+        if (!bookingId || !price) {
+            console.error("❌ ERROR: Missing Booking ID or Price.");
+            return;
+        }
+
+        console.log("🚀 Opening Payment Modal for Booking ID:", bookingId, "Amount:", price);
+
+        // Show the modal
+        modal.style.display = "block"; // Show modal overlay
+
+        // Autofill price & store booking ID in form for submission
+        document.getElementById("amount").value = price;
+        paymentForm.setAttribute("data-booking-id", bookingId);
+    });
+
+    // ✅ Close Modal When Clicking Outside
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // ✅ Handle Payment Form Submission (Instead of Click Event on Pay Button)
+    paymentForm.addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent page reload
+
+        const bookingId = paymentForm.getAttribute("data-booking-id");
+        if (!bookingId) {
+            alert("❌ Error: Booking ID is missing.");
+            return;
+        }
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("⚠️ Please log in first.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        console.log("💳 Processing payment for Booking ID:", bookingId);
+
+        try {
+            const response = await fetch(`https://airline-reservation-backend.onrender.com/api/bookings/${bookingId}/updateStatus`, {
+                method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ status: "Paid" }) // Update booking status
+            });
+
+            const data = await response.json();
+            console.log("📡 Server Response:", data);
+
+            if (response.ok) {
+                alert("✅ Payment Successful! Booking status updated.");
+                modal.style.display = "none"; // Close modal after payment
+                fetchCustomerBookings(); // Refresh booking list after successful payment
+            } else {
+                alert(`❌ Payment Failed: ${data.message || "Error processing payment."}`);
+            }
+        } catch (error) {
+            alert("❌ Failed to process payment. Check internet connection.");
+            console.error("❌ Payment error:", error);
+        }
+    });
+});
+
+
+
+
+
+document.addEventListener("click", () => {
+    const modal = document.getElementById("paymentModal");
+    const paymentForm = document.getElementById("payment-form");
+
+    // Open Payment Modal When Clicking a Booking Card
+    document.getElementById("bookings-container").addEventListener("click", (event) => {
+        const card = event.target.closest(".booking-card");
+        if (!card) return; // Exit if no card was clicked
+
+        const bookingId = card.getAttribute("data-booking-id");
+        const price = card.getAttribute("data-amount");
+
+        if (!bookingId || !price) {
+            console.error("ERROR: Missing Booking ID or Price.");
+            return;
+        }
+
+        console.log("Opening Payment Modal for Booking ID:", bookingId, "Amount:", price);
+
+        // Show the modal
+        modal.style.display = "block"; // Show modal overlay
+
+        // Autofill price & store booking ID in form for submission
+        document.getElementById("amount").value = price;
+        paymentForm.setAttribute("data-booking-id", bookingId);
+    });
+
+    // Close Modal When Clicking Outside
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // Handle Payment Form Submission (Instead of Click Event on Pay Button)
+    paymentForm.addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent page reload
+
+        const bookingId = paymentForm.getAttribute("data-booking-id");
+        if (!bookingId) {
+            alert("Error: Booking ID is missing.");
+            return;
+        }
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Please log in first.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        console.log("Processing payment for Booking ID:", bookingId);
+
+        try {
+            const response = await fetch(`https://airline-reservation-backend.onrender.com/api/bookings/${bookingId}/updateStatus`, {
+                method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `${token}`
+                },
+                body: JSON.stringify({ status: "Paid" }) // Update booking status
+            });
+
+            const data = await response.json();
+            console.log("Server Response:", data);
+
+            if (response.ok) {
+                modal.style.display = "none"; 
+                window.location.reload();
+            } else {
+                alert(`Payment Failed: ${data.message || "Error processing payment."}`);
+            }
+        } catch (error) {
+            console.error("Payment error:", error);
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
            
     // ✅ Fetch user data only when dashboard.html is loaded
     if (window.location.pathname.includes("dashboard.html")) {
@@ -412,7 +587,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ✅ Function to display flights in HTML
 function displayResults(departureFlights, returnFlights, origin, destination, departureDate, returnDate, isRoundTrip) {
-    let resultsHTML = `<h2>Flight Search Results</h2>`;
+    let resultsHTML = `<h2>Available Flights</h2>`;
 
 
     if (departureFlights.length === 0 && (!isRoundTrip || returnFlights.length === 0)) {

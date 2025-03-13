@@ -1,3 +1,4 @@
+
 /* ✅ Allow the page to scroll properly */
 body {
     font-family: Arial, sans-serif;
@@ -11,7 +12,7 @@ body {
 }
 
 
-/* ✅ Ensure the container is fully visible */
+ /*✅ Ensure the container is fully visible */
 .container {
     background: white;
     padding: 20px;
@@ -373,7 +374,6 @@ body {
     transform: scale(1.02); /* Slight lift effect */
 }
 
-
 /* ✅ Title Styling */
 .card-title {
     font-size: 1.2rem;
@@ -418,4 +418,76 @@ body {
     border-radius: 5px;
     display: inline-block;
     margin-top: 10px;
+}
+
+
+/* Payment Form Container */
+.modal {
+    display: none;
+    position: fixed;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Input Fields */
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+/* Expiry Date & CVV Row */
+.input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+/* Payment Button */
+.pay-btn {
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.pay-btn:hover {
+    background-color: #218838;
 }
